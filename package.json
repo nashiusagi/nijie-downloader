@@ -6,9 +6,12 @@
   "type": "module",
   "scripts": {
     "dev": "VITE_MOCKED_API=true VITE_SERVICE_ENV=dev vite",
+    "lint": "biome lint ./src",
+    "lint:write": "biome lint --write ./src",
     "test:unit": "vitest run"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "vite": "^6.0.7",
     "vitest": "^3.0.2"
   }
