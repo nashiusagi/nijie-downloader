@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "VITE_MOCKED_API=true VITE_SERVICE_ENV=dev vite",
+    "format": "biome format ./src",
+    "format:write": "biome format --write ./src",
     "lint": "biome lint ./src",
     "lint:write": "biome lint --write ./src",
     "test:unit": "vitest run"

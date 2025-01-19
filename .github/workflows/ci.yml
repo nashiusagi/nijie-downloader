@@ -45,6 +45,34 @@ jobs:
           path: ./node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
 
+  format-check:
+    runs-on: ubuntu-24.04
+    needs: setup
+    steps:
+      - name: code checkout
+        uses: actions/checkout@v4
+    
+      - name: node setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: v20
+          cache: yarn
+          cache-dependency-path: ./yarn.lock
+    
+      - name: restore cache
+        id: restore-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+
+      - name: exit if cache does not hit
+        if: steps.restore-cache.outputs.cache-hit != 'true'
+        run: exit 1 
+
+      - name: format check 
+        run: yarn format
+
   lint:
     runs-on: ubuntu-24.04
     needs: setup
