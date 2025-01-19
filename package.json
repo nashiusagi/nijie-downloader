@@ -1,0 +1,15 @@
+{
+  "name": "nijie-downloader",
+  "version": "0.0.0",
+  "main": "index.ts",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "VITE_MOCKED_API=true VITE_SERVICE_ENV=dev vite",
+    "test:unit": "vitest run"
+  },
+  "devDependencies": {
+    "vite": "^6.0.7",
+    "vitest": "^3.0.2"
+  }
+}
