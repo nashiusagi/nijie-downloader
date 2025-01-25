@@ -25,47 +25,48 @@ export class DownloadManager {
 
   _IsMatchPostImageUrl(imgUrl: string): boolean {
     const postImagePattern =
-      /https\:\/\/pic.nijie.net\/(\d+)\/nijie\/[A-Za-z0-9]+\/(\d+)\/(\d+)\/illust\/[A-Za-z0-9]+.jpg/;
+      /https\:\/\/pic.nijie.net\/(\d+)\/nijie\/[A-Za-z0-9]+\/(\d+)\/(\d+)\/illust\/[A-Za-z0-9\_]+.jpg/;
 
     return !!imgUrl.match(postImagePattern);
   }
 
-  async requestInfo(postId: number) {
-    const res = await GMFetch(
-      `https://nijie.info/view_popup.php?id=${postId}`,
-      {
-        responseType: "text",
-      },
-    );
-
-    // property change
+  async generateZip() {
     const imgUrls = this.extractPostImageLinks();
-
-    return {
-      imgUrls: imgUrls,
-    };
-  }
-
-  async _downloadPost(postId) {
-    const info = await this.requestInfo(postId);
-    this.currentStatus.total = info.imgUrls.length;
+    this.currentStatus.total = imgUrls.length;
 
     let bin: Blob;
-    try {
-      const zip = new JSZip();
 
-      for (const [index, imgUrl] of info.imgUrls) {
-        const blob = await GMFetch(imgUrl);
-        const name = `${index}.jpg`;
-        zip.file(name, blob);
-
-        this.currentStatus.done++;
-      }
-      bin = await zip.generateAsync({ type: "blob" }, (metadata) => {
-        this.currentStatus.zip = metadata.percent;
+    const zip = new JSZip();
+    for (let i = 0; i < imgUrls.length; i++) {
+      const imgUrl = imgUrls[i];
+      console.log(imgUrl);
+      const blob = await GMFetch(imgUrl, {
+        responseType: "arraybuffer",
       });
-    } catch (e) {
-      throw new Error("downloadError");
+      console.log(blob);
+      const name = `${i}.jpg`;
+      zip.file(name, blob);
+
+      this.currentStatus.done++;
     }
+    bin = await zip.generateAsync({ type: "blob" }, (metadata) => {
+      this.currentStatus.zip = metadata.percent;
+    });
+
+    return bin;
+  }
+
+  async downloadPost() {
+    const bin = await this.generateZip();
+    console.log(bin);
+
+    // fire the download
+    const dl = document.createElement("a");
+    dl.href = URL.createObjectURL(bin);
+    dl.download = "test.zip";
+    document.body.append(dl);
+    dl.click();
+    dl.remove();
+    console.log("DONE!");
   }
 }

@@ -6,7 +6,7 @@ describe("DownloadManagerのテスト", () => {
     const inputHTMLString = `
       <div>
         <img src="https://pic.nijie.net/01/nijie/test/00/000000/illust/sample1.jpg">
-        <img src="https://pic.nijie.net/01/nijie/test/00/000000/illust/sample2.jpg">
+        <img src="https://pic.nijie.net/01/nijie/test/00/000000/illust/sample_2.jpg">
       </div>
     `;
     document.body.innerHTML = inputHTMLString;
@@ -17,7 +17,7 @@ describe("DownloadManagerのテスト", () => {
 
     const expected = [
       "https://pic.nijie.net/01/nijie/test/00/000000/illust/sample1.jpg",
-      "https://pic.nijie.net/01/nijie/test/00/000000/illust/sample2.jpg",
+      "https://pic.nijie.net/01/nijie/test/00/000000/illust/sample_2.jpg",
     ];
 
     const result = downloadManager.extractPostImageLinks();
