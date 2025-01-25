@@ -1,7 +1,9 @@
-function greeter(person: string): string {
-  return `Hello, ${person}`;
-}
+const tailButtons = document.getElementById("view-center-button");
 
-const user: string = "World";
+const downloadButton = document.createElement("button");
+downloadButton.innerHTML = "Download";
+downloadButton.addEventListener("click", (event) => {
+  alert("Hello UserScript!");
+});
 
-document.body.textContent = greeter(user);
+tailButtons?.appendChild(downloadButton);
