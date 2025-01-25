@@ -34,9 +34,10 @@ export class DownloadManager {
     const imgUrls = this.extractPostImageLinks();
     this.currentStatus.total = imgUrls.length;
 
-    let bin: Blob;
-
     const zip = new JSZip();
+
+    // NOTE: should avoid `foreach`.
+    // https://zenn.dev/wintyo/articles/2973f15a265581
     for (let i = 0; i < imgUrls.length; i++) {
       const imgUrl = imgUrls[i];
       console.log(imgUrl);
@@ -49,7 +50,7 @@ export class DownloadManager {
 
       this.currentStatus.done++;
     }
-    bin = await zip.generateAsync({ type: "blob" }, (metadata) => {
+    const bin = await zip.generateAsync({ type: "blob" }, (metadata) => {
       this.currentStatus.zip = metadata.percent;
     });
 
