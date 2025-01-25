@@ -17,5 +17,9 @@
     "happy-dom": "^16.7.2",
     "vite": "^6.0.7",
     "vitest": "^3.0.2"
+  },
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "jszip": "^3.10.1"
   }
 }
