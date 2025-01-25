@@ -4,7 +4,7 @@ import { sleep } from "./sleep";
 test("指定した時間だけ処理を待つ", async () => {
   const startTime = performance.now();
 
-  await sleep(100);
+  await sleep(110);
 
   const endTime = performance.now();
   const spendTime = endTime - startTime;
