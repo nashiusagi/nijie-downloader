@@ -1,12 +1,8 @@
 import { DownloadManager } from "./DownloadManager";
+import { PostDownloadButton } from "./PostDownloadButton";
+
+const downloadManager = new DownloadManager();
 
 const tailButtons = document.getElementById("view-center-button");
-
-const downloadButton = document.createElement("button");
-downloadButton.innerHTML = "Download";
-downloadButton.addEventListener("click", async (event) => {
-  const downloadManager = new DownloadManager();
-  await downloadManager.downloadPost();
-});
-
-tailButtons?.appendChild(downloadButton);
+const postDownloadButton = new PostDownloadButton(downloadManager);
+tailButtons?.appendChild(postDownloadButton.button);
