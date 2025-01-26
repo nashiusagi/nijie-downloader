@@ -17,7 +17,7 @@ export class PostDownloadButton extends DownloadButton {
         text-decoration: none;
         color: #fff;
         display: block;
-        width: 100px;
+        width: 150px;
         border-radius: 30px;
         border-color: #0081e0;
         background: #0081e0;
