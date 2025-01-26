@@ -8,7 +8,7 @@ export default {
   },
   plugins: [
     typescript({
-      exclude: ["**/*.test.ts"]
+      exclude: ["**/*.test.ts", "./vite.config.ts", "./vitest.config.ts"]
     })
   ]
 }
