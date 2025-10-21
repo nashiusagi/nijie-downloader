@@ -525,10 +525,10 @@ function-bind@^1.1.2:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.2.tgz#2c02d864d97f3ea6c8830c464cbd11ab6eab7a1c"
   integrity sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==
 
-happy-dom@^19.0.2:
-  version "19.0.2"
-  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-19.0.2.tgz#ecb9d48b7fc802c70c59b7ec1148517c125f8b04"
-  integrity sha512-831CLbgDyjRbd2lApHZFsBDe56onuFcjsCBPodzWpzedTpeDr8CGZjs7iEIdNW1DVwSFRecfwzLpVyGBPamwGA==
+happy-dom@^20.0.7:
+  version "20.0.7"
+  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-20.0.7.tgz#fe2abb295bd43baa6b761018ec983c084f18f64f"
+  integrity sha512-CywLfzmYxP5OYpuAG0usFY0CpxJtwYR+w8Mms5J8W29Y2Pzf6rbfQS2M523tRZTb0oLA+URopPtnAQX2fupHZQ==
   dependencies:
     "@types/node" "^20.0.0"
     "@types/whatwg-mimetype" "^3.0.2"
