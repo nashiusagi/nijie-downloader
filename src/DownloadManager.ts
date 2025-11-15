@@ -24,8 +24,7 @@ export class DownloadManager {
   }
 
   _IsMatchPostImageUrl(imgUrl: string): boolean {
-    const postImagePattern =
-      /https\:\/\/pic.nijie.net\/.*\.jpg/;
+    const postImagePattern = /https\:\/\/pic.nijie.net\/.*\.jpg/;
 
     return !!imgUrl.match(postImagePattern);
   }
