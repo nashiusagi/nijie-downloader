@@ -1,55 +1,71 @@
 import GMFetch from "./libs/GMFetch";
 import JSZip from "jszip";
 
-interface Status {
+export interface DownloadStatus {
   done: number;
   total: number;
   zip: number;
 }
 
+export interface DownloadOptions {
+  filename?: string;
+  imageExtension?: string;
+}
+
 export class DownloadManager {
   private imgElements: Array<HTMLImageElement>;
-  private currentStatus: Status;
+  private currentStatus: DownloadStatus;
 
-  constructor() {
-    this.imgElements = Array.from(document.getElementsByTagName("img"));
+  constructor(document?: Document) {
+    const doc = document || globalThis.document;
+    this.imgElements = Array.from(doc.getElementsByTagName("img"));
 
     this.currentStatus = { done: 0, total: 0, zip: 0 };
   }
 
-  extractPostImageLinks() {
+  extractPostImageLinks(): string[] {
     return this.imgElements
       .map((imgElement) => imgElement.src)
-      .filter((imgUrl) => this._IsMatchPostImageUrl(imgUrl));
+      .filter((imgUrl) => this.isMatchPostImageUrl(imgUrl));
   }
 
-  _IsMatchPostImageUrl(imgUrl: string): boolean {
-    const postImagePattern = /https\:\/\/pic.nijie.net\/.*\.jpg/;
+  private isMatchPostImageUrl(imgUrl: string): boolean {
+    const postImagePattern = /https:\/\/pic\.nijie\.net\/.*\.jpg/;
 
-    return !!imgUrl.match(postImagePattern);
+    return postImagePattern.test(imgUrl);
   }
 
-  async generateZip() {
+  async generateZip(options: DownloadOptions = {}): Promise<Blob> {
     const imgUrls = this.extractPostImageLinks();
-    console.log(imgUrls);
+    
+    if (imgUrls.length === 0) {
+      throw new Error("画像が見つかりませんでした");
+    }
+
     this.currentStatus.total = imgUrls.length;
+    this.currentStatus.done = 0;
+    this.currentStatus.zip = 0;
 
     const zip = new JSZip();
+    const extension = options.imageExtension || "jpg";
 
     // NOTE: should avoid `foreach`.
     // https://zenn.dev/wintyo/articles/2973f15a265581
     for (let i = 0; i < imgUrls.length; i++) {
       const imgUrl = imgUrls[i];
-      console.log(imgUrl);
-      const blob = await GMFetch(imgUrl, {
-        responseType: "arraybuffer",
-      });
-      console.log(blob);
-      const name = `${i}.jpg`;
-      zip.file(name, blob);
-
-      this.currentStatus.done++;
+      try {
+        const blob = await GMFetch(imgUrl, {
+          responseType: "arraybuffer",
+        });
+        const name = `${i}.${extension}`;
+        zip.file(name, blob);
+        this.currentStatus.done++;
+      } catch (error) {
+        console.error(`画像のダウンロードに失敗しました: ${imgUrl}`, error);
+        throw new Error(`画像のダウンロードに失敗しました: ${imgUrl}`);
+      }
     }
+    
     const bin = await zip.generateAsync({ type: "blob" }, (metadata) => {
       this.currentStatus.zip = metadata.percent;
     });
@@ -57,17 +73,20 @@ export class DownloadManager {
     return bin;
   }
 
-  async downloadPost() {
-    const bin = await this.generateZip();
-    console.log(bin);
+  async downloadPost(options: DownloadOptions = {}): Promise<void> {
+    const bin = await this.generateZip(options);
+    const filename = options.filename || "download.zip";
 
     // fire the download
     const dl = document.createElement("a");
     dl.href = URL.createObjectURL(bin);
-    dl.download = "test.zip";
+    dl.download = filename;
     document.body.append(dl);
     dl.click();
     dl.remove();
-    console.log("DONE!");
+  }
+
+  getStatus(): DownloadStatus {
+    return { ...this.currentStatus };
   }
 }
