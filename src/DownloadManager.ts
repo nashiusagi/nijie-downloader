@@ -37,7 +37,7 @@ export class DownloadManager {
 
   async generateZip(options: DownloadOptions = {}): Promise<Blob> {
     const imgUrls = this.extractPostImageLinks();
-    
+
     if (imgUrls.length === 0) {
       throw new Error("画像が見つかりませんでした");
     }
@@ -65,7 +65,7 @@ export class DownloadManager {
         throw new Error(`画像のダウンロードに失敗しました: ${imgUrl}`);
       }
     }
-    
+
     const bin = await zip.generateAsync({ type: "blob" }, (metadata) => {
       this.currentStatus.zip = metadata.percent;
     });
