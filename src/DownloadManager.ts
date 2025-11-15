@@ -25,13 +25,14 @@ export class DownloadManager {
 
   _IsMatchPostImageUrl(imgUrl: string): boolean {
     const postImagePattern =
-      /https\:\/\/pic.nijie.net\/(\d+)\/nijie\/[A-Za-z0-9]+\/(\d+)\/(\d+)\/illust\/[A-Za-z0-9\_]+.jpg/;
+      /https\:\/\/pic.nijie.net\/.*\.jpg/;
 
     return !!imgUrl.match(postImagePattern);
   }
 
   async generateZip() {
     const imgUrls = this.extractPostImageLinks();
+    console.log(imgUrls);
     this.currentStatus.total = imgUrls.length;
 
     const zip = new JSZip();
