@@ -107,9 +107,7 @@ describe("DownloadManagerのテスト", () => {
         }
         return Promise.resolve(new Blob(["zip"], { type: "application/zip" }));
       });
-    vi.mocked(JSZip).mockImplementation(function (
-      this: MockJSZipInstance,
-    ) {
+    vi.mocked(JSZip).mockImplementation(function (this: MockJSZipInstance) {
       this.file = mockFile;
       this.generateAsync = mockGenerateAsync;
       return this;
@@ -146,9 +144,7 @@ describe("DownloadManagerのテスト", () => {
     const mockGenerateAsync = vi
       .fn()
       .mockResolvedValue(new Blob(["zip"], { type: "application/zip" }));
-    vi.mocked(JSZip).mockImplementation(function (
-      this: MockJSZipInstance,
-    ) {
+    vi.mocked(JSZip).mockImplementation(function (this: MockJSZipInstance) {
       this.file = mockFile;
       this.generateAsync = mockGenerateAsync;
       return this;
@@ -183,9 +179,7 @@ describe("DownloadManagerのテスト", () => {
 
     const mockFile = vi.fn();
     const mockGenerateAsync = vi.fn();
-    vi.mocked(JSZip).mockImplementation(function (
-      this: MockJSZipInstance,
-    ) {
+    vi.mocked(JSZip).mockImplementation(function (this: MockJSZipInstance) {
       this.file = mockFile;
       this.generateAsync = mockGenerateAsync;
       return this;
@@ -214,9 +208,7 @@ describe("DownloadManagerのテスト", () => {
     const mockGenerateAsync = vi
       .fn()
       .mockResolvedValue(new Blob(["zip"], { type: "application/zip" }));
-    vi.mocked(JSZip).mockImplementation(function (
-      this: MockJSZipInstance,
-    ) {
+    vi.mocked(JSZip).mockImplementation(function (this: MockJSZipInstance) {
       this.file = mockFile;
       this.generateAsync = mockGenerateAsync;
       return this;
@@ -259,9 +251,7 @@ describe("DownloadManagerのテスト", () => {
     const mockGenerateAsync = vi
       .fn()
       .mockResolvedValue(new Blob(["zip"], { type: "application/zip" }));
-    vi.mocked(JSZip).mockImplementation(function (
-      this: MockJSZipInstance,
-    ) {
+    vi.mocked(JSZip).mockImplementation(function (this: MockJSZipInstance) {
       this.file = mockFile;
       this.generateAsync = mockGenerateAsync;
       return this;
@@ -299,9 +289,7 @@ describe("DownloadManagerのテスト", () => {
     const mockGenerateAsync = vi
       .fn()
       .mockResolvedValue(new Blob(["zip"], { type: "application/zip" }));
-    vi.mocked(JSZip).mockImplementation(function (
-      this: MockJSZipInstance,
-    ) {
+    vi.mocked(JSZip).mockImplementation(function (this: MockJSZipInstance) {
       this.file = mockFile;
       this.generateAsync = mockGenerateAsync;
       return this;
