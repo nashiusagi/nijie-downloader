@@ -15,9 +15,11 @@ export interface DownloadOptions {
 export class DownloadManager {
   private imgElements: Array<HTMLImageElement>;
   private currentStatus: DownloadStatus;
+  private document: Document;
 
   constructor(document?: Document) {
     const doc = document || globalThis.document;
+    this.document = doc;
     this.imgElements = Array.from(doc.getElementsByTagName("img"));
 
     this.currentStatus = { done: 0, total: 0, zip: 0 };
@@ -75,13 +77,20 @@ export class DownloadManager {
 
   async downloadPost(options: DownloadOptions = {}): Promise<void> {
     const bin = await this.generateZip(options);
-    const filename = options.filename || "download.zip";
+
+    let filename = options.filename;
+    if (!filename) {
+      const title = this.document.head
+        ?.querySelector("title")
+        ?.textContent?.trim();
+      filename = title ? `${title}.zip` : "download.zip";
+    }
 
     // fire the download
-    const dl = document.createElement("a");
+    const dl = this.document.createElement("a");
     dl.href = URL.createObjectURL(bin);
     dl.download = filename;
-    document.body.append(dl);
+    this.document.body.append(dl);
     dl.click();
     dl.remove();
   }
